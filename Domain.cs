@@ -1,7 +1,35 @@
-﻿using FluentNHibernate.Mapping;
+﻿using FluentNHibernate.Cfg;
+using FluentNHibernate.Cfg.Db;
+using FluentNHibernate.Mapping;
+using NHibernate;
 
 namespace AggregatePatterns
 {
+    class TestFixture
+    {
+        public void Test()
+        {
+            var sessionFactory = CreateSessionFactory();
+            using (var session = sessionFactory.OpenSession())
+            {
+                using (var transaction = session.BeginTransaction())
+                {
+                    var customer = new Trade { Amount = 123 };
+                    session.SaveOrUpdate(customer);
+                    transaction.Commit();
+                }
+            }
+        }
+
+        private static ISessionFactory CreateSessionFactory()
+        {
+            return Fluently.Configure()
+                .Database(SQLiteConfiguration.Standard.InMemory)
+                .Mappings(m => m.FluentMappings.AddFromAssemblyOf<TestFixture>())
+                .BuildSessionFactory();
+        }
+    }
+
     public class Match
     {
         public int Id { get; set; }
