@@ -75,6 +75,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EntityBase.cs" />
+    <Compile Include="Mappings.cs" />
+    <Compile Include="Fixture.cs" />
     <Compile Include="Domain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
